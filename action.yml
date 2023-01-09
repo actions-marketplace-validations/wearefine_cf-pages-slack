@@ -1,6 +1,6 @@
-name: 'Cloudflare Pages Await'
-description: 'Wait for Cloudflare Pages to build'
-author: 'WalshyDev'
+name: 'Cloudflare Pages Slack'
+description: 'Notify Slack of Cloudflare Pages deployments'
+author: 'wearefine'
 inputs:
   accountEmail:
     description: 'Cloudflare account email (Not recommended)'
@@ -24,6 +24,9 @@ inputs:
   commitHash:
     description: 'The commit hash of the commit triggered the target deployment'
     required: true
+  slackWebHook:
+    description: 'Slack webhook URL'
+    required: false
 outputs:
   id:
     description: 'Deployment ID'
