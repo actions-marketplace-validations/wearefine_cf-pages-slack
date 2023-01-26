@@ -1,6 +1,6 @@
 # CF Pages Await
 
-Wait for a Cloudflare Pages build to finish so you can do actions like purge cache, update Workers, etc.
+Wait for a Cloudflare Pages build to finish before sending a Slack notification
 
 ## Usage
 ```yml
@@ -28,37 +28,10 @@ jobs:
         project: 'example-pages-project'
         # Add this if you want GitHub Deployments (see below)
         githubToken: ${{ secrets.GITHUB_TOKEN }}
+        # Slack webhook
+        slackWebHook: 'https://hooks.slack.com/service/...'
         # Add this if you want to wait for a deployment triggered by a specfied commit
         commitHash: ${{ steps.push-changes.outputs.commit-hash }}
-```
-
-### Example
-```yml
-name: Deploy
-on: push
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-    - uses: actions/checkout@v2
-    - name: Wait for CF Pages
-      id: cf-pages
-      uses: WalshyDev/cf-pages-await@v1
-      with:
-        apiToken: ${{ secrets.CF_API_TOKEN  }}
-        accountId: '4e599df4216133509abaac54b109a647'
-        project: 'test'
-        # Add this if you want GitHub Deployments (see below)
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
-    - run: |
-        curl -X \
-          -H "Authorization: ${{ secrets.CF_API_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          --data '{"purge_everything":true}' \
-          https://api.cloudflare.com/client/v4/zones/8d0c8239f88f98a8cb82ec7bb29b8556/purge_cache
 ```
 
 ## Outputs
